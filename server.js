@@ -8,6 +8,16 @@ app.use(express.urlencoded({ extended: true })); // Parse URL-encoded payloads
 const dotenv = require('dotenv');
 dotenv.config();
 
+//REQUIRE DATABASE
+const db = require('./config/db.connection.js');
+
+//DATABASE MODEL
+const user = require('./models/user.model.js');
+
+//ROUTES
+const authRouter = require('./routes/auth.route.js');
+app.use('/api/auth', authRouter);
+
 // PORT
 const PORT = process.env.PORT;
 
