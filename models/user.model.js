@@ -14,7 +14,6 @@ const userTable = `
     image VARCHAR(255),
     password VARCHAR(100) NOT NULL,
     usertype ENUM('admin','vendor','user') NOT NULL
-
     )
 `;
 
