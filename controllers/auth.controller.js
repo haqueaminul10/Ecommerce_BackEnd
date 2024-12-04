@@ -67,7 +67,27 @@ const register = async (req, res) => {
     });
   } catch (error) {
     console.log(`📌 ~ register ~ error:`, error);
+    return res.status(502).json({
+      message: 'Interner server error',
+    });
   }
 };
 
-module.exports = { register };
+const logIn = async (req, res) => {
+  try {
+    const { email, password } = req.body;
+
+    if (!email || !password) {
+      return res.status(400).json({
+        message: 'All field required',
+      });
+    }
+  } catch (error) {
+    console.log(`📌 ~ logIn ~ error:`, error);
+    return res.status(502).json({
+      message: 'Interner server error',
+    });
+  }
+};
+
+module.exports = { register, logIn };

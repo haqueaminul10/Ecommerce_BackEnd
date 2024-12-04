@@ -20,7 +20,8 @@ const userTable = `
 db.query(userTable, (err, result) => {
   if (err) {
     console.log(`📌 ~ db.query ~ err:`, err);
-  } else {
-    console.log('📌 ~ User table created successfully');
   }
+  // else {
+  //   console.log('📌 ~ User table created successfully');
+  // }
 });
