@@ -1,4 +1,7 @@
 const db = require('../config/db.connection.js');
+const jwt = require('jsonwebtoken');
+const JWT_SECRET = process.env.JWT_SECRET;
+
 //REGISTER API
 const register = async (req, res) => {
   try {
@@ -82,6 +85,42 @@ const logIn = async (req, res) => {
         message: 'All field required',
       });
     }
+
+    const userEmailQuery = `SELECT * FROM user WHERE email=?`;
+    db.query(userEmailQuery, [email], (err, result) => {
+      if (err) {
+        return res.status(500).json({
+          message: 'Database error',
+        });
+      } else if (result.length == 0) {
+        return res.status(404).json({
+          message: 'User not found',
+        });
+      } else {
+        const user = result[0];
+        if (user.password !== password) {
+          return res.status(401).json({
+            message: 'User not found',
+          });
+        }
+        const payload = {
+          id: user.id,
+          username: user.username,
+          image: user.image,
+          email: user.email,
+          password: user.password,
+          usertype: user.usertype,
+        };
+
+        const token = jwt.sign(payload, JWT_SECRET, { expiresIn: '7d' });
+        console.log(`📌 ~ db.query ~ token:`, token);
+
+        return res.status(200).json({
+          message: 'Login successfully',
+          token,
+        });
+      }
+    });
   } catch (error) {
     console.log(`📌 ~ logIn ~ error:`, error);
     return res.status(502).json({
