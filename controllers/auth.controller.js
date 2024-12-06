@@ -108,21 +108,19 @@ const logIn = async (req, res) => {
           username: user.username,
           image: user.image,
           email: user.email,
-          password: user.password,
           usertype: user.usertype,
         };
 
         const token = jwt.sign(payload, JWT_SECRET, { expiresIn: '7d' });
-        console.log(`📌 ~ db.query ~ token:`, token);
 
         return res.status(200).json({
           message: 'Login successfully',
           token,
+          payload,
         });
       }
     });
   } catch (error) {
-    console.log(`📌 ~ logIn ~ error:`, error);
     return res.status(502).json({
       message: 'Interner server error',
     });

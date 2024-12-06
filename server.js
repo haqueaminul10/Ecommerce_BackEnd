@@ -4,6 +4,10 @@ const app = express();
 app.use(express.json()); // Parse JSON payloads
 app.use(express.urlencoded({ extended: true })); // Parse URL-encoded payloads
 
+//CORS
+const cors = require('cors');
+app.use(cors());
+
 //DOTENV
 const dotenv = require('dotenv');
 dotenv.config();
